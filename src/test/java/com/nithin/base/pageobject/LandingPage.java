@@ -18,6 +18,14 @@ public class LandingPage extends AbstarctComponents {
 
 	}
 
+//	driver.findElement(By.xpath("//div[@aria-label='Incorrect email or password.']"))
+
+//	@FindBy(xpath = "//div[@aria-label='Incorrect email or password.']")
+//	WebElement errorMsg;
+
+	@FindBy(css = "div[aria-label='Incorrect email or password.']")
+	WebElement errorMsg;
+
 	@FindBy(id = "userEmail")
 	WebElement userEmail;
 
@@ -37,6 +45,12 @@ public class LandingPage extends AbstarctComponents {
 
 	public void goTo() {
 		driver.get("https://rahulshettyacademy.com/client");
+	}
+
+	public String getErrorMsg() {
+		waitForWebElementToAppear(errorMsg);
+		return errorMsg.getTagName();
+
 	}
 
 }
