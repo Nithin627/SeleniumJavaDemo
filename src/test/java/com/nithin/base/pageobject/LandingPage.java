@@ -1,13 +1,42 @@
 package com.nithin.base.pageobject;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class LandingPage {
+import com.nithin.abstarctcomponents.AbstarctComponents;
+
+public class LandingPage extends AbstarctComponents {
 	WebDriver driver;
 
 	public LandingPage(WebDriver driver) {
+		super(driver);
 		this.driver = driver;
 
+		PageFactory.initElements(driver, this);
+
+	}
+
+	@FindBy(id = "userEmail")
+	WebElement userEmail;
+
+	@FindBy(id = "userPassword")
+	WebElement userPassword;
+
+	@FindBy(id = "login")
+	WebElement loginBtn;
+
+	public ProductCatalog enterUserDetails(String uname, String pass) {
+		userEmail.sendKeys(uname);
+		userPassword.sendKeys(pass);
+		loginBtn.click();
+		ProductCatalog productCatalogue = new ProductCatalog(driver);
+		return productCatalogue;
+	}
+
+	public void goTo() {
+		driver.get("https://rahulshettyacademy.com/client");
 	}
 
 }

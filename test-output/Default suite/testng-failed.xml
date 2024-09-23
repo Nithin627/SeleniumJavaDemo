@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="com.nithin.base.StanAloneTest">
+      <class name="com.nithin.base.MainStepDefinition">
         <methods>
           <include name="testWebPage"/>
         </methods>
-      </class> <!-- com.nithin.base.StanAloneTest -->
+      </class> <!-- com.nithin.base.MainStepDefinition -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
