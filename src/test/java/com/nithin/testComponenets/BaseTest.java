@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -58,9 +60,7 @@ public class BaseTest {
 
 //		read json to string
 		try {
-			String jsonContent = FileUtils.readFileToString(
-					new File(filePath),
-					StandardCharsets.UTF_8);
+			String jsonContent = FileUtils.readFileToString(new File(filePath), StandardCharsets.UTF_8);
 
 //		convert string to hash map
 
@@ -72,6 +72,15 @@ public class BaseTest {
 			e.printStackTrace();
 		}
 		return data;
+	}
+
+	public String getScreenShot(String testCaseName) throws IOException {
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File src = ts.getScreenshotAs(OutputType.FILE);
+		File dest = new File(System.getProperty("user.dir") + "//screenshot//" + testCaseName + ".png");
+		FileUtils.copyFile(src, dest);
+		return System.getProperty("user.dir") + "//screenshot//" + testCaseName + ".png";
+
 	}
 
 	@BeforeMethod(alwaysRun = true)
