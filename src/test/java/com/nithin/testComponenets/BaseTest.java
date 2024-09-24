@@ -1,10 +1,15 @@
 package com.nithin.testComponenets;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -12,11 +17,14 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nithin.base.pageobject.LandingPage;
 
 public class BaseTest {
 	public WebDriver driver;
 	public LandingPage landingpage;
+	List<HashMap<String, String>> data;
 
 	public WebDriver InitialiseDriver() throws IOException {
 		Properties prop = new Properties();
@@ -46,6 +54,26 @@ public class BaseTest {
 
 	}
 
+	public List<HashMap<String, String>> getJsonDataToMap(String filePath) {
+
+//		read json to string
+		try {
+			String jsonContent = FileUtils.readFileToString(
+					new File(filePath),
+					StandardCharsets.UTF_8);
+
+//		convert string to hash map
+
+			ObjectMapper mapper = new ObjectMapper();
+			data = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>() {
+			});
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return data;
+	}
+
 	@BeforeMethod(alwaysRun = true)
 	public LandingPage launchApplication() throws IOException {
 		driver = InitialiseDriver();
@@ -55,6 +83,7 @@ public class BaseTest {
 
 	}
 
+	@AfterMethod
 	public void tearDown() {
 		driver.close();
 	}
